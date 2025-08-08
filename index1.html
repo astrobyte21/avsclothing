@@ -1,0 +1,1175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AVS Clothing Store - Fashion & Style</title>
+    <style>
+        /* CSS Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* CSS Variables for Color Palette */
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #e74c3c;
+            --accent-color: #f39c12;
+            --light-gray: #ecf0f1;
+            --dark-gray: #7f8c8d;
+            --white: #ffffff;
+            --black: #2c3e50;
+            --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        /* Header and Navigation */
+        header {
+            background: var(--white);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo::before {
+            content: '👕';
+            margin-right: 0.5rem;
+            font-size: 1.5rem;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: var(--primary-color);
+            font-weight: 500;
+            transition: color 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+        }
+
+        .nav-menu a:hover,
+        .nav-menu a.active {
+            color: var(--secondary-color);
+            background: var(--light-gray);
+        }
+
+        .cart-icon {
+            position: relative;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            padding: 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .cart-icon:hover {
+            color: var(--secondary-color);
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--secondary-color);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: var(--primary-color);
+            margin: 3px 0;
+            transition: 0.3s;
+        }
+
+        /* Main Content */
+        main {
+            margin-top: 80px;
+        }
+
+        /* Page Sections */
+        .page-section {
+            display: none;
+            min-height: calc(100vh - 80px);
+            padding: 2rem 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .page-section.active {
+            display: block;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: var(--gradient);
+            color: white;
+            text-align: center;
+            padding: 4rem 2rem;
+            border-radius: 15px;
+            margin-bottom: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="rgba(255,255,255,0.1)"/><circle cx="80" cy="40" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="40" cy="70" r="1.5" fill="rgba(255,255,255,0.1)"/></svg>');
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.3s forwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .cta-button {
+            background: var(--secondary-color);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.6s forwards;
+        }
+
+        .cta-button:hover {
+            background: #c0392b;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.4);
+        }
+
+        /* Shop Section */
+        .search-bar {
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .search-bar input {
+            width: 100%;
+            max-width: 400px;
+            padding: 1rem;
+            border: 2px solid var(--light-gray);
+            border-radius: 25px;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .search-bar input:focus {
+            border-color: var(--secondary-color);
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 250px;
+            background: var(--gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-image::after {
+            content: attr(data-emoji);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 4rem;
+        }
+
+        .product-info {
+            padding: 1.5rem;
+        }
+
+        .product-name {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+        }
+
+        .product-price {
+            font-size: 1.1rem;
+            color: var(--secondary-color);
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .add-to-cart {
+            width: 100%;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.8rem;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .add-to-cart:hover {
+            background: #34495e;
+            transform: translateY(-2px);
+        }
+
+        /* About Section */
+        .about-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .about-content h2 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 2rem;
+        }
+
+        .about-content p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            color: var(--dark-gray);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        /* Contact Section */
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .contact-form h2 {
+            text-align: center;
+            color: var(--primary-color);
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid var(--light-gray);
+            border-radius: 8px;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: var(--secondary-color);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            height: 120px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: var(--secondary-color);
+            color: white;
+            padding: 1rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background: #c0392b;
+            transform: translateY(-2px);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 3rem 5% 1rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            color: var(--accent-color);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .social-links a {
+            color: white;
+            font-size: 1.5rem;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--accent-color);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.2);
+            padding-top: 1rem;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 80px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 80px);
+                background: white;
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: center;
+                padding: 2rem 0;
+                transition: left 0.3s ease;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .navbar {
+                padding: 1rem 3%;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .page-section {
+                padding: 2rem 3%;
+            }
+
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .navbar {
+                padding: 1rem 2%;
+            }
+
+            .page-section {
+                padding: 1rem 2%;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Utility Classes */
+        .hidden { display: none; }
+        .fade-in {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="navbar">
+            <a href="#home" class="logo">AVS Clothing Store</a>
+            
+            <ul class="nav-menu">
+                <li><a href="#home" class="nav-link active">Home</a></li>
+                <li><a href="#shop" class="nav-link">Shop</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+            
+            <div class="cart-icon" onclick="showCart()">
+                🛒
+                <span class="cart-count" id="cart-count">0</span>
+            </div>
+            
+            <div class="hamburger" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Home Section -->
+        <section id="home" class="page-section active">
+            <div class="hero">
+                <div class="hero-content">
+                    <h1>Welcome to AVS Clothing Store</h1>
+                    <p>Discover the latest fashion trends and express your unique style</p>
+                    <a href="#shop" class="cta-button">Shop Now</a>
+                </div>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">👕</div>
+                    <h3>Quality Fashion</h3>
+                    <p>Premium clothing made with the finest materials for lasting comfort and style.</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">🚚</div>
+                    <h3>Fast Delivery</h3>
+                    <p>Quick and reliable shipping to get your favorite outfits to you in no time.</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">💖</div>
+                    <h3>Customer Love</h3>
+                    <p>Exceptional customer service and support for a seamless shopping experience.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Shop Section -->
+        <section id="shop" class="page-section">
+            <h2 style="text-align: center; margin-bottom: 2rem; color: var(--primary-color); font-size: 2.5rem;">Our Collection</h2>
+            
+            <div class="search-bar">
+                <input type="text" id="search-input" placeholder="Search for products..." onkeyup="filterProducts()">
+            </div>
+            
+            <div class="products-grid" id="products-grid">
+                <!-- Products will be generated by JavaScript -->
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="page-section">
+            <div class="about-content">
+                <h2>About AVS Clothing Store</h2>
+                <p>Founded with a passion for fashion and style, AVS Clothing Store has been serving customers with premium quality clothing for over a decade. We believe that fashion is a form of self-expression, and our mission is to help you discover and embrace your unique style.</p>
+                
+                <p>Our carefully curated collection features the latest trends, timeless classics, and everything in between. From casual everyday wear to elegant formal attire, we have something for every occasion and every personality.</p>
+                
+                <p>At AVS, we're committed to quality, sustainability, and exceptional customer service. Every piece in our collection is selected with care, ensuring that you get the best value for your investment in style.</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🌟</div>
+                    <h3>Premium Quality</h3>
+                    <p>We source only the finest materials and work with trusted manufacturers to ensure every item meets our high standards.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🌱</div>
+                    <h3>Sustainable Fashion</h3>
+                    <p>Committed to environmentally responsible practices and supporting ethical fashion brands.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">✨</div>
+                    <h3>Latest Trends</h3>
+                    <p>Stay ahead of the fashion curve with our regularly updated collection of trendy and stylish pieces.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="page-section">
+            <div class="contact-form">
+                <h2>Get in Touch</h2>
+                <form id="contact-form">
+                    <div class="form-group">
+                        <label for="name">Your Name</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" placeholder="How can we help you?" required></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">Send Message</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>AVS Clothing Store</h3>
+                <p>Your destination for premium fashion and style. Discover, express, and embrace your unique look with our carefully curated collection.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Info</h3>
+                <p>📍 123 Fashion Street, Style City, SC 12345</p>
+                <p>📞 (555) 123-4567</p>
+                <p>✉️ info@avsclothing.com</p>
+            </div>
+            <div class="footer-section">
+                <h3>Follow Us</h3>
+                <div class="social-links">
+                    <a href="#" title="Facebook">📘</a>
+                    <a href="#" title="Instagram">📷</a>
+                    <a href="#" title="Twitter">🐦</a>
+                    <a href="#" title="Pinterest">📌</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 AVS Clothing Store. All rights reserved. | Designed with ❤️ for fashion lovers</p>
+        </div>
+    </footer>
+
+    <script>
+        // JavaScript for AVS Clothing Store
+
+        // Sample product data
+        const products = [
+            { id: 1, name: "Classic T-Shirt", price: 29.99, emoji: "👕", category: "shirts" },
+            { id: 2, name: "Denim Jeans", price: 79.99, emoji: "👖", category: "pants" },
+            { id: 3, name: "Summer Dress", price: 59.99, emoji: "👗", category: "dresses" },
+            { id: 4, name: "Leather Jacket", price: 199.99, emoji: "🧥", category: "jackets" },
+            { id: 5, name: "Casual Sneakers", price: 89.99, emoji: "👟", category: "shoes" },
+            { id: 6, name: "Elegant Blouse", price: 49.99, emoji: "👚", category: "shirts" },
+            { id: 7, name: "Sports Hoodie", price: 69.99, emoji: "👕", category: "hoodies" },
+            { id: 8, name: "Formal Pants", price: 89.99, emoji: "👔", category: "pants" },
+            { id: 9, name: "Winter Coat", price: 159.99, emoji: "🧥", category: "jackets" },
+            { id: 10, name: "Floral Skirt", price: 39.99, emoji: "👗", category: "skirts" },
+            { id: 11, name: "Cotton Shorts", price: 34.99, emoji: "🩳", category: "shorts" },
+            { id: 12, name: "Knit Sweater", price: 79.99, emoji: "🧶", category: "sweaters" }
+        ];
+
+        // Shopping cart functionality
+        let cart = [];
+
+        // Load cart from localStorage if available
+        function loadCart() {
+            const savedCart = localStorage.getItem('avsCart');
+            if (savedCart) {
+                cart = JSON.parse(savedCart);
+                updateCartCount();
+            }
+        }
+
+        // Save cart to localStorage
+        function saveCart() {
+            localStorage.setItem('avsCart', JSON.stringify(cart));
+        }
+
+        // Add item to cart
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            if (product) {
+                const existingItem = cart.find(item => item.id === productId);
+                if (existingItem) {
+                    existingItem.quantity += 1;
+                } else {
+                    cart.push({ ...product, quantity: 1 });
+                }
+                updateCartCount();
+                saveCart();
+                showAddedToCartAnimation();
+            }
+        }
+
+        // Update cart count display
+        function updateCartCount() {
+            const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
+            document.getElementById('cart-count').textContent = cartCount;
+        }
+
+        // Show cart (simplified - could expand to modal)
+        function showCart() {
+            if (cart.length === 0) {
+                alert('Your cart is empty! Start shopping to add items.');
+                return;
+            }
+            
+            let cartContent = 'Your Cart:\n\n';
+            let total = 0;
+            
+            cart.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                cartContent += `${item.name} x${item.quantity} - $${itemTotal.toFixed(2)}\n`;
+                total += itemTotal;
+            });
+            
+            cartContent += `\nTotal: $${total.toFixed(2)}`;
+            alert(cartContent);
+        }
+
+        // Show added to cart animation
+        function showAddedToCartAnimation() {
+            const cartIcon = document.querySelector('.cart-icon');
+            cartIcon.style.transform = 'scale(1.2)';
+            cartIcon.style.color = 'var(--secondary-color)';
+            
+            setTimeout(() => {
+                cartIcon.style.transform = 'scale(1)';
+                cartIcon.style.color = 'var(--primary-color)';
+            }, 200);
+        }
+
+        // Navigation functionality
+        function switchPage(targetId) {
+            // Hide all sections
+            const sections = document.querySelectorAll('.page-section');
+            sections.forEach(section => section.classList.remove('active'));
+            
+            // Show target section
+            const targetSection = document.getElementById(targetId);
+            if (targetSection) {
+                targetSection.classList.add('active');
+            }
+            
+            // Update navigation links
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => link.classList.remove('active'));
+            
+            const activeLink = document.querySelector(`a[href="#${targetId}"]`);
+            if (activeLink) {
+                activeLink.classList.add('active');
+            }
+        }
+
+        // Mobile menu toggle
+        function toggleMenu() {
+            const navMenu = document.querySelector('.nav-menu');
+            const hamburger = document.querySelector('.hamburger');
+            
+            navMenu.classList.toggle('active');
+            hamburger.classList.toggle('active');
+        }
+
+        // Product filtering
+        function filterProducts() {
+            const searchTerm = document.getElementById('search-input').value.toLowerCase();
+            const productCards = document.querySelectorAll('.product-card');
+            
+            productCards.forEach(card => {
+                const productName = card.querySelector('.product-name').textContent.toLowerCase();
+                if (productName.includes(searchTerm)) {
+                    card.style.display = 'block';
+                    card.style.animation = 'fadeInUp 0.5s ease forwards';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Generate product cards
+        function generateProducts() {
+            const productsGrid = document.getElementById('products-grid');
+            productsGrid.innerHTML = '';
+            
+            products.forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.className = 'product-card';
+                productCard.innerHTML = `
+                    <div class="product-image" data-emoji="${product.emoji}"></div>
+                    <div class="product-info">
+                        <div class="product-name">${product.name}</div>
+                        <div class="product-price">$${product.price.toFixed(2)}</div>
+                        <button class="add-to-cart" onclick="addToCart(${product.id})">
+                            Add to Cart
+                        </button>
+                    </div>
+                `;
+                productsGrid.appendChild(productCard);
+            });
+        }
+
+        // Contact form handling
+        function handleContactForm(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const message = document.getElementById('message').value.trim();
+            
+            // Basic validation
+            if (!name || !email || !message) {
+                alert('Please fill in all fields.');
+                return;
+            }
+            
+            if (!isValidEmail(email)) {
+                alert('Please enter a valid email address.');
+                return;
+            }
+            
+            // Simulate form submission
+            const submitBtn = document.querySelector('.submit-btn');
+            const originalText = submitBtn.textContent;
+            submitBtn.innerHTML = '<span class="loading"></span> Sending...';
+            submitBtn.disabled = true;
+            
+            setTimeout(() => {
+                alert(`Thank you, ${name}! Your message has been sent successfully. We'll get back to you soon!`);
+                document.getElementById('contact-form').reset();
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            }, 2000);
+        }
+
+        // Email validation helper
+        function isValidEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+
+        // Smooth scroll to section
+        function smoothScrollTo(targetId) {
+            const targetElement = document.getElementById(targetId.substring(1));
+            if (targetElement) {
+                targetElement.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        }
+
+        // Initialize the website
+        function init() {
+            // Load cart from storage
+            loadCart();
+            
+            // Generate products
+            generateProducts();
+            
+            // Add event listeners for navigation
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetId = link.getAttribute('href').substring(1);
+                    switchPage(targetId);
+                    
+                    // Close mobile menu if open
+                    const navMenu = document.querySelector('.nav-menu');
+                    if (navMenu.classList.contains('active')) {
+                        toggleMenu();
+                    }
+                });
+            });
+            
+            // Add event listener for CTA button
+            document.querySelector('.cta-button').addEventListener('click', (e) => {
+                e.preventDefault();
+                switchPage('shop');
+            });
+            
+            // Add event listener for contact form
+            document.getElementById('contact-form').addEventListener('submit', handleContactForm);
+            
+            // Add scroll effect to header
+            window.addEventListener('scroll', () => {
+                const header = document.querySelector('header');
+                if (window.scrollY > 100) {
+                    header.style.background = 'rgba(255, 255, 255, 0.95)';
+                    header.style.backdropFilter = 'blur(10px)';
+                } else {
+                    header.style.background = 'var(--white)';
+                    header.style.backdropFilter = 'none';
+                }
+            });
+            
+            // Add fade-in animation to elements on scroll
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+            
+            // Observe elements for animation
+            document.querySelectorAll('.product-card, .feature-card').forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(30px)';
+                el.style.transition = 'all 0.6s ease';
+                observer.observe(el);
+            });
+            
+            // Add click handlers for product cards
+            setTimeout(() => {
+                document.querySelectorAll('.product-card').forEach(card => {
+                    card.addEventListener('click', (e) => {
+                        if (!e.target.classList.contains('add-to-cart')) {
+                            // Add subtle click animation
+                            card.style.transform = 'scale(0.98)';
+                            setTimeout(() => {
+                                card.style.transform = 'scale(1)';
+                            }, 150);
+                        }
+                    });
+                });
+            }, 100);
+        }
+
+        // Handle hash changes in URL
+        window.addEventListener('hashchange', () => {
+            const hash = window.location.hash;
+            if (hash) {
+                const targetId = hash.substring(1);
+                switchPage(targetId);
+            }
+        });
+
+        // Handle page load with hash
+        window.addEventListener('load', () => {
+            const hash = window.location.hash;
+            if (hash) {
+                const targetId = hash.substring(1);
+                switchPage(targetId);
+            }
+        });
+
+        // Add keyboard navigation support
+        document.addEventListener('keydown', (e) => {
+            // Escape key closes mobile menu
+            if (e.key === 'Escape') {
+                const navMenu = document.querySelector('.nav-menu');
+                if (navMenu.classList.contains('active')) {
+                    toggleMenu();
+                }
+            }
+        });
+
+        // Add touch support for mobile devices
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        document.addEventListener('touchstart', e => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        document.addEventListener('touchend', e => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            const swipeThreshold = 100;
+            const diff = touchStartX - touchEndX;
+            
+            if (Math.abs(diff) > swipeThreshold) {
+                // Add swipe functionality if needed for mobile navigation
+                // This is a placeholder for potential swipe navigation
+            }
+        }
+
+        // Performance optimization: Lazy load product images
+        function lazyLoadImages() {
+            const imageObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        img.style.opacity = '1';
+                        imageObserver.unobserve(img);
+                    }
+                });
+            });
+
+            document.querySelectorAll('.product-image').forEach(img => {
+                img.style.opacity = '0.7';
+                img.style.transition = 'opacity 0.3s ease';
+                imageObserver.observe(img);
+            });
+        }
+
+        // Initialize everything when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            init();
+            
+            // Small delay for smooth animations
+            setTimeout(() => {
+                lazyLoadImages();
+            }, 500);
+        });
+
+        // Add some interactive features
+        
+        // Product quick view (simplified)
+        function showProductQuickView(productId) {
+            const product = products.find(p => p.id === productId);
+            if (product) {
+                alert(`${product.name}\nPrice: ${product.price}\n\nThis is a quick view. In a full implementation, this would show a detailed modal with product images, descriptions, size options, etc.`);
+            }
+        }
+
+        // Add to wishlist functionality (simplified)
+        function addToWishlist(productId) {
+            const product = products.find(p => p.id === productId);
+            if (product) {
+                alert(`${product.name} has been added to your wishlist!`);
+            }
+        }
+
+        // Newsletter signup (simplified)
+        function subscribeNewsletter() {
+            const email = prompt('Enter your email to subscribe to our newsletter:');
+            if (email && isValidEmail(email)) {
+                alert('Thank you for subscribing! You\'ll receive the latest fashion updates and exclusive offers.');
+            } else if (email) {
+                alert('Please enter a valid email address.');
+            }
+        }
+
+        // Add some easter eggs and interactive elements
+        let clickCount = 0;
+        document.querySelector('.logo').addEventListener('click', (e) => {
+            e.preventDefault();
+            clickCount++;
+            
+            if (clickCount === 5) {
+                alert('🎉 You found the hidden easter egg! Enjoy 20% off your next purchase with code: EASTER20');
+                clickCount = 0;
+            }
+        });
+
+        // Add seasonal greeting
+        function getSeasonalGreeting() {
+            const month = new Date().getMonth();
+            const greetings = {
+                winter: "❄️ Winter Collection - Stay warm and stylish!",
+                spring: "🌸 Spring Arrivals - Fresh looks for the new season!",
+                summer: "☀️ Summer Vibes - Light and breezy fashion!",
+                fall: "🍂 Fall Fashion - Cozy up with our autumn collection!"
+            };
+            
+            if (month >= 11 || month <= 1) return greetings.winter;
+            if (month >= 2 && month <= 4) return greetings.spring;
+            if (month >= 5 && month <= 7) return greetings.summer;
+            return greetings.fall;
+        }
+
+        // Update hero section with seasonal greeting
+        setTimeout(() => {
+            const heroSubtext = document.querySelector('.hero p');
+            heroSubtext.textContent = getSeasonalGreeting();
+        }, 3000);
+
+    </script>
+</body>
+</html>
